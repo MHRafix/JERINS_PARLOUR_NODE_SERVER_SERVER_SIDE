@@ -40,21 +40,34 @@ async function run(){
         const database = client.db('Jerins_Parlour'); // Database name
         const servicesCollection = database.collection('Services');
         const bookingsCollection = database.collection('Bookings');
+        const adminsCollection = database.collection('Admin');
 
         
         /*******************************
         * All Post Api Here
         * *****************************/
-         app.post('/bookings', async(req, res) => {
+
+        // Take booking info and set to the db
+        app.post('/bookings', async(req, res) => {
             const bookings = req.body;
             const result = await bookingsCollection.insertOne(bookings);
             res.json(result);
             
         }); 
-
+        
+        // Take service info and set to the db
         app.post('/services', async(req, res) => {
             const serviceInfo = req.body;
             const result = await servicesCollection.insertOne(serviceInfo);
+            res.json(result);
+            
+        }); 
+        
+        // Take admins info and set to the db
+        app.post('/admins', async(req, res) => {
+            const adminsInfo = req.body;
+            const result = await adminsCollection.insertOne(adminsInfo);
+            console.log(result);
             res.json(result);
             
         }); 
