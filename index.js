@@ -81,7 +81,7 @@ async function run(){
         // Get the featured services data from the mongodb services collection
         app.get('/featuredServices', async (req, res) => {
             const findService = servicesCollection.find({});
-            const services = await findService.limit(3).toArray();
+            const services = await findService.limit(6).toArray();
             res.send(services);
         });
      
