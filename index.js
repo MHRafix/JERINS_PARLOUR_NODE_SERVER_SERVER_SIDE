@@ -41,6 +41,7 @@ async function run(){
         const servicesCollection = database.collection('Services');
         const bookingsCollection = database.collection('Bookings');
         const adminsCollection = database.collection('Admin');
+        const feedbackCollection = database.collection('UserFeedBack');
 
         
         /*******************************
@@ -67,7 +68,14 @@ async function run(){
         app.post('/admins', async(req, res) => {
             const adminsInfo = req.body;
             const result = await adminsCollection.insertOne(adminsInfo);
-            console.log(result);
+            res.json(result);
+            
+        }); 
+
+        // Save user feedback to the db
+        app.post('/userfeedBack', async(req, res) => {
+            const feedBack = req.body;
+            const result = await feedbackCollection.insertOne(feedBack);
             res.json(result);
             
         }); 
@@ -99,6 +107,15 @@ async function run(){
             const booking = await findBooking.toArray();
             res.send(booking);
         });
+
+        // Get  user feedback from the db
+        app.get('/userfeedBack', async (req, res) => {
+            const findFeedBack = feedbackCollection.find({});
+            const feedback = await findFeedBack.toArray();
+            res.send(feedback);
+        });
+
+
 
 
         /*******************************
