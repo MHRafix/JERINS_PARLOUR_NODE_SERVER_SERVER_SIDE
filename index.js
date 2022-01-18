@@ -31,7 +31,6 @@ app.use(express.json());
 async function run(){
 
     try{
-        
         // Connect With MongoDB Client Here
         await client.connect();
 
@@ -135,6 +134,14 @@ async function run(){
 
 
         // Get the booked services data from the mongodb bookings collection
+        app.get('/bookedServices/:email', async (req, res) => {
+            const query = {customerEmail: req.params.email};
+            const findBooking = bookingsCollection.find(query);
+            const booking = await findBooking.toArray();
+            res.send(booking);
+        });
+
+        // Get the booked services data from the mongodb bookings collection
         app.get('/bookedServices', async (req, res) => {
             const findBooking = bookingsCollection.find({});
             const booking = await findBooking.toArray();
@@ -154,6 +161,13 @@ async function run(){
         /*******************************
          * All Delete Api
          ******************************/
+         app.delete('/bookedServices/:email/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = { _id:ObjectId(id) };
+            const result = await bookingsCollection.deleteOne(query);
+            res.json(result);
+        });
+
          app.delete('/bookedServices/:id', async(req, res) => {
             const id = req.params.id;
             const query = { _id:ObjectId(id) };
