@@ -6,7 +6,7 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
 const ObjectId = require('mongodb').ObjectId;
-
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 // Make App && Port
 const app = express();
@@ -95,12 +95,6 @@ async function run(){
         
         });
 
-
-
-
-
-
-        
 
         /******************************
          * Update Api from the server
