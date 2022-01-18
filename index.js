@@ -81,6 +81,45 @@ async function run(){
         }); 
 
 
+        //Stripe Payment here
+        app.post("/create-payment-intent", async (req, res) => {
+            const paymentInfo = req.body;
+            const amount = paymentInfo.payableAmount * 100;
+            const paymentIntent =  await stripe.paymentIntents.create({
+                currency: "usd",  
+                amount: amount,
+                payment_method_types: [ 'card']
+            });
+
+            res.json({ clientSecret: paymentIntent.client_secret });
+        
+        });
+
+
+
+
+
+
+        
+
+        /******************************
+         * Update Api from the server
+         * ***************************/
+        app.put('/orders/:id', async (req, res) => {
+        const id = req.params.id;
+        const payment = req.body;
+        const filter = {_id: ObjectId(id)};
+        const updateDoc = {
+            $set: {
+                payment: payment
+            }
+        };
+        const result = await bookingsCollection.updateOne(filter
+            , updateDoc);
+            res.json(result);
+        });
+
+
 
         /*******************************
         * All Get Api Here
