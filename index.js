@@ -98,13 +98,15 @@ async function run(){
         /******************************
          * Update Api from the server
          * ***************************/
-        app.put('/orders/:id', async (req, res) => {
+        app.put('/bookedServices/:email/:id', async (req, res) => {
         const id = req.params.id;
         const payment = req.body;
         const filter = {_id: ObjectId(id)};
         const updateDoc = {
             $set: {
-                payment: payment
+                payment: payment,
+                paymentStatus: true,
+                status: 'Approved'
             }
         };
         const result = await bookingsCollection.updateOne(filter
